@@ -28,31 +28,20 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<Widget> data = List.generate(23, (index) {
-    return Card(
-        color: Colors.white,
-        elevation: 2.0,
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 10.0),
-          child: Text('$index'),
-        ));
-  });
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: ListView.separated(
+        itemCount: 33,
+        separatorBuilder: (BuildContext context, int index) => Divider(),
+        itemBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text('$index'),
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (context, index) => data[index],
-              ),
-            ),
-          ],
-        ));
+      ),
+    );
   }
 }
