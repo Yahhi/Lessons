@@ -32,13 +32,9 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Widget> data = List.generate(17, (index) {
     return Card(
       color: Color.fromRGBO(0, 255, 0, index / 50),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Text('test=$index'),
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Text('test=$index'),
       ),
     );
   });
