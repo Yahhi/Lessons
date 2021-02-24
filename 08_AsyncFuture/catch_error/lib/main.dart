@@ -28,7 +28,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var filePath = 'assets/artists.json';
+  var filePath = 'assets/test1.txt';
 
   @override
   Widget build(BuildContext context) {
@@ -43,14 +43,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text('test good file'),
                 onPressed: () {
                   setState(() {
-                    filePath = 'assets/artists.json';
+                    filePath = 'assets/test1.txt';
                   });
                 }),
             RaisedButton(
                 child: Text('test bad file'),
                 onPressed: () {
                   setState(() {
-                    filePath = 'assets/artists1.json';
+                    filePath = 'assets/test2.txt';
                   });
                 }),
             FutureBuilder(
