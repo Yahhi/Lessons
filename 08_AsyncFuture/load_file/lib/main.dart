@@ -20,8 +20,6 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  String fileData;
-
   MyHomePage({Key key, this.title}) : super(key: key);
   final String title;
 
@@ -31,11 +29,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var filePath = 'test1';
+  var fileData = '';
 
   Future loadFileData(fileName) async {
     var fullFilePath = 'assets/$fileName.txt';
     var fullText = await fetchFileFromAssets(fullFilePath);
-    setState(() => widget.fileData = fullText);
+    setState(() => fileData = fullText);
   }
 
   final searchController = TextEditingController();
@@ -104,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
                 child: Text('$filePath file'),
               ),
-              Text(widget.fileData),
+              Text(fileData),
             ],
           ),
         ));
