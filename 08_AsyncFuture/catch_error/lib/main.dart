@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text('test good file'),
                 onPressed: () {
                   setState(() {
-                    filePath = 'assets/test1.txt';
+                    filePath = 'assets/artists.json';
                   });
                 }),
             RaisedButton(
@@ -53,25 +53,27 @@ class _MyHomePageState extends State<MyHomePage> {
                     filePath = 'assets/test2.txt';
                   });
                 }),
-            FutureBuilder(
-              future: fetchFileFromAssets(filePath),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return CircularProgressIndicator();
-                    break;
-                  case ConnectionState.done:
-                    return SingleChildScrollView(
-                      child: Text('done! ${snapshot.data}'),
-                    );
-                    break;
-                  case ConnectionState.none:
-                    return Text('none');
-                    break;
-                  default:
-                    return Text('default');
-                }
-              },
+            Expanded(
+              child: FutureBuilder(
+                future: fetchFileFromAssets(filePath),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                      return CircularProgressIndicator();
+                      break;
+                    case ConnectionState.done:
+                      return SingleChildScrollView(
+                        child: Text('done! ${snapshot.data}'),
+                      );
+                      break;
+                    case ConnectionState.none:
+                      return Text('none');
+                      break;
+                    default:
+                      return Text('default');
+                  }
+                },
+              ),
             ),
           ],
         ));
