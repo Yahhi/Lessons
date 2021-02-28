@@ -72,121 +72,126 @@ class _DetailsViewState extends State<DetailsView> {
                 : Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Container(
-                        height: 300,
-                        child: CarouselSlider.builder(
-                            // key: _sliderKey,
-                            unlimitedMode: true,
-                            slideBuilder: (index) {
-                              return Image.asset(
-                                  'assets/images/${data.photos[index]}');
-                            },
-                            slideTransform: CubeTransform(),
-                            slideIndicator: CircularSlideIndicator(
-                              padding: EdgeInsets.only(bottom: 32),
-                            ),
-                            itemCount: data.photos.length),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8, top: 8),
-                        child: Row(
-                          children: [
-                            Text('Страна: '),
-                            Text(
-                              '${data.address.country}',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w800),
-                            ),
-                          ],
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          height: 300,
+                          child: CarouselSlider.builder(
+                              // key: _sliderKey,
+                              unlimitedMode: true,
+                              slideBuilder: (index) {
+                                return Image.asset(
+                                    'assets/images/${data.photos[index]}');
+                              },
+                              slideTransform: CubeTransform(),
+                              slideIndicator: CircularSlideIndicator(
+                                padding: EdgeInsets.only(bottom: 32),
+                              ),
+                              itemCount: data.photos.length),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8, top: 8),
-                        child: Row(
-                          children: [
-                            Text('Город: '),
-                            Text('${data.address.city}',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w800)),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8, top: 8),
-                        child: Row(
-                          children: [
-                            Text('Улица: '),
-                            Text('${data.address.street}',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w800)),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8, top: 8),
-                        child: Row(
-                          children: [
-                            Text('Рейтинг: '),
-                            Text('${data.rating}',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w800)),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(left: 8, top: 25, bottom: 12),
-                        child: Row(
-                          children: [
-                            Text('Сервисы',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.w600)),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: cWidth,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text('Платные',
+                      Expanded(
+                        flex: 2,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Text('Страна: '),
+                                    Text(
+                                      '${data.address.country}',
                                       style: TextStyle(
                                           color: Colors.black,
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.w600)),
-                                  ...data.services.paid.map((val) => Text(val))
-                                ],
-                              ),
+                                          fontWeight: FontWeight.w800),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text('Город: '),
+                                    Text('${data.address.city}',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w800)),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text('Улица: '),
+                                    Text('${data.address.street}',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w800)),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text('Рейтинг: '),
+                                    Text('${data.rating}',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w800)),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 20, bottom: 12),
+                                      child: Text('Сервисы',
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 28,
+                                              fontWeight: FontWeight.w600)),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: cWidth,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text('Платные',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 22,
+                                                  fontWeight: FontWeight.w600)),
+                                          ...data.services.paid
+                                              .map((val) => Text(val))
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 10,
+                                    ),
+                                    Container(
+                                      width: cWidth,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text('Бесплатно',
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 22,
+                                                  fontWeight: FontWeight.w600)),
+                                          ...data.services.free
+                                              .map((val) => Text(val))
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                            Container(
-                              width: 20,
-                            ),
-                            Container(
-                              width: cWidth,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text('Бесплатно',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.w600)),
-                                  ...data.services.free.map((val) => Text(val))
-                                ],
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       ),
                     ],

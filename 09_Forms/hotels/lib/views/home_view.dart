@@ -50,40 +50,47 @@ class _HomeViewState extends State<HomeView> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
-          elevation: 10.0,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Image.asset(
-                  'assets/images/${record.poster}',
-                  fit: BoxFit.fitHeight,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        elevation: 10.0,
+        child: Container(
+          alignment: Alignment.bottomCenter,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+            image: DecorationImage(
+              image: AssetImage('assets/images/${record.poster}'),
+              fit: BoxFit.fitWidth,
+            ),
+          ),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(15.0),
+                  bottomRight: Radius.circular(15.0)),
+              color: Colors.white,
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(record.name),
+                RaisedButton(
+                  color: Colors.blue,
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pushNamed('/details', arguments: {'id': record.uuid});
+                  },
+                  child: Text(
+                    'Подробнее',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(record.name),
-                    RaisedButton(
-                      color: Colors.blue,
-                      onPressed: () {
-                        Navigator.of(context).pushNamed('/details',
-                            arguments: {'id': record.uuid});
-                      },
-                      child: Text(
-                        'Подробнее',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          )),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -91,42 +98,47 @@ class _HomeViewState extends State<HomeView> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
-        elevation: 10.0,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(
-              child: Image.asset(
-                'assets/images/${record.poster}',
-                fit: BoxFit.fitHeight,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10, bottom: 20),
-              child: Text(record.name, textAlign: TextAlign.center),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context)
-                    .pushNamed('/details', arguments: {'id': record.uuid});
-              },
-              child: Container(
-                color: Colors.blue,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Подробнее',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          elevation: 10.0,
+          child: Column(
+            children: [
+              Expanded(
+                flex: 3,
+                child: Container(
+                  alignment: Alignment.bottomCenter,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15.0),
+                        topRight: Radius.circular(15.0)),
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/${record.poster}'),
+                      fit: BoxFit.fitWidth,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
+              Expanded(
+                flex: 1,
+                child: Text(
+                  record.name,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              RaisedButton(
+                color: Colors.blue,
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushNamed('/details', arguments: {'id': record.uuid});
+                },
+                child: Text(
+                  'Подробнее',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          )),
     );
   }
 
