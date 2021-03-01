@@ -126,15 +126,30 @@ class _HomeViewState extends State<HomeView> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              RaisedButton(
-                color: Colors.blue,
-                onPressed: () {
-                  Navigator.of(context)
-                      .pushNamed('/details', arguments: {'id': record.uuid});
-                },
-                child: Text(
-                  'Подробнее',
-                  style: TextStyle(color: Colors.white),
+              Expanded(
+                flex: 1,
+                child: Center(
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(15.0),
+                            bottomRight: Radius.circular(15.0))),
+                    child: Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/details',
+                              arguments: {'id': record.uuid});
+                        },
+                        child: Text(
+                          'Подробнее',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
