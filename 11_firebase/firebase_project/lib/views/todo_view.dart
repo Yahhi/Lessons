@@ -37,63 +37,67 @@ class _TodoViewState extends State<TodoView> {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text('TodoView'),
-        ),
-        body: _buildBody(context),
-      ),
+          appBar: AppBar(
+            title: Text('TodoView'),
+          ),
+          // body: _buildBody(context),
+          body: Column(
+            children: [
+              getNewTaskForm(),
+              Flexible(
+                flex: 3,
+                child: getAllTasksView(),
+              ),
+            ],
+          )),
     );
   }
 
-  Widget _buildBody(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 16, left: 16, bottom: 10),
-          child: Form(
-              key: _form2Key,
-              child: Column(
-                children: [
-                  TextFormField(
-                    key: Key('fieldTitle'),
-                    controller: _controllerTitle,
-                    validator: (value) {
-                      if (value == '') return 'Enter title';
-                      return null;
-                    },
-                    decoration: InputDecoration(labelText: 'Title new task'),
-                  ),
-                  TextFormField(
-                    key: Key('fieldDescr'),
-                    controller: _controllerDescr,
-                    validator: (value) {
-                      return null;
-                    },
-                    decoration: InputDecoration(labelText: 'Description'),
-                  ),
-                  RaisedButton(
-                    color: Colors.blue,
-                    onPressed: _submit,
-                    child: Text(
-                      'Save new task',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ],
-              )),
-        ),
-        Flexible(
-          flex: 3,
-          child: StreamBuilder<QuerySnapshot>(
-            stream: Firestore.instance.collection('todos').snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) return LinearProgressIndicator();
+  StreamBuilder<QuerySnapshot> getAllTasksView() {
+    return StreamBuilder<QuerySnapshot>(
+      stream: Firestore.instance.collection('todos').snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return LinearProgressIndicator();
 
-              return _buildList(context, snapshot.data.documents);
-            },
-          ),
-        ),
-      ],
+        return _buildList(context, snapshot.data.documents);
+      },
+    );
+  }
+
+  Padding getNewTaskForm() {
+    return Padding(
+      padding: const EdgeInsets.only(right: 16, left: 16, bottom: 10),
+      child: Form(
+          key: _form2Key,
+          child: Column(
+            children: [
+              TextFormField(
+                key: Key('fieldTitle'),
+                controller: _controllerTitle,
+                validator: (value) {
+                  if (value == '') return 'Enter title';
+                  return null;
+                },
+                decoration: InputDecoration(labelText: 'New task title'),
+              ),
+              TextFormField(
+                key: Key('fieldDescr'),
+                controller: _controllerDescr,
+                validator: (value) {
+                  return null;
+                },
+                decoration: InputDecoration(labelText: 'Description'),
+              ),
+              RaisedButton(
+                color: Colors.blue,
+                onPressed: _submit,
+                child: Text(
+                  'Save new task',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          )),
     );
   }
 
@@ -145,43 +149,129 @@ class _TodoViewState extends State<TodoView> {
                     color: Colors.blue,
                   ),
           ),
-          trailing: GestureDetector(
-            onTap: () {
-              Widget cancelButton = FlatButton(
-                child: Text("Cancel"),
-                onPressed: () {
-                  Navigator.of(context).pop();
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  editClick(context, data);
                 },
-              );
-              Widget yesButton = FlatButton(
-                child: Text("Yes"),
-                onPressed: () {
-                  data.reference.delete();
-                  Navigator.of(context).pop();
+                child: Icon(
+                  Icons.edit,
+                  color: Colors.green,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  delClick(context, data);
                 },
-              );
-              AlertDialog alert = AlertDialog(
-                title: Text("Delete record"),
-                content: Text("Would you like to delete this record?"),
-                actions: [
-                  cancelButton,
-                  yesButton,
-                ],
-              );
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return alert;
-                },
-              );
-            },
-            child: Icon(
-              Icons.delete,
-              color: Colors.red,
-            ),
+                child: Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                ),
+              ),
+            ],
           ),
         ),
       ),
+    );
+  }
+
+  void editClick(BuildContext context, DocumentSnapshot data) {
+    final GlobalKey<FormState> _form3Key = GlobalKey<FormState>();
+    TextEditingController _controller2Title = TextEditingController();
+    _controller2Title.text = data['title'];
+    TextEditingController _controller2Descr = TextEditingController();
+    _controller2Descr.text = data['descr'];
+
+    Widget fieldTitle = TextFormField(
+      key: Key('fieldTitle'),
+      controller: _controller2Title,
+      validator: (value) {
+        if (value == '') return 'Enter title';
+        return null;
+      },
+      decoration: InputDecoration(labelText: 'Title task'),
+    );
+    Widget fieldDescr = TextFormField(
+      key: Key('fieldDescr'),
+      controller: _controller2Descr,
+      validator: (value) {
+        return null;
+      },
+      decoration: InputDecoration(labelText: 'Description'),
+    );
+    Widget cancelButton = FlatButton(
+      child: Text("Cancel"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget saveButton = FlatButton(
+      child: Text("Save"),
+      onPressed: () {
+        if (_form3Key.currentState.validate()) {
+          _form3Key.currentState.save();
+          data.reference.updateData({
+            'title': _controller2Title.text,
+            'descr': _controller2Descr.text
+          });
+          Navigator.of(context).pop();
+        }
+      },
+    );
+    AlertDialog alert = AlertDialog(
+      title: Text("Edit record"),
+      content: Form(
+        key: _form3Key,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            fieldTitle,
+            fieldDescr,
+          ],
+        ),
+      ),
+      actions: [
+        cancelButton,
+        saveButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void delClick(BuildContext context, DocumentSnapshot data) {
+    Widget cancelButton = FlatButton(
+      child: Text("Cancel"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget yesButton = FlatButton(
+      child: Text("Yes"),
+      onPressed: () {
+        data.reference.delete();
+        Navigator.of(context).pop();
+      },
+    );
+    AlertDialog alert = AlertDialog(
+      title: Text("Delete record"),
+      content: Text("Would you like to delete this record?"),
+      actions: [
+        cancelButton,
+        yesButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }
