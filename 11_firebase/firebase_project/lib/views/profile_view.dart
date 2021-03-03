@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_project/utils/auth_service.dart';
+import 'package:firebase_project/utils/store_service.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -13,6 +14,7 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   AuthService _authService = AuthService();
+  StoreService _storeService = StoreService();
   FirebaseUser _user;
 
   File _image;
@@ -44,6 +46,13 @@ class _ProfileViewState extends State<ProfileView> {
     Navigator.of(context).pushNamed('/todo');
   }
 
+  _onSaveImage() async {
+    var imgUrl = await _storeService.uploadImage(_image, _user.uid);
+    UserUpdateInfo info = UserUpdateInfo();
+    info.photoUrl = imgUrl;
+    _user.updateProfile(info);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -66,22 +75,40 @@ class _ProfileViewState extends State<ProfileView> {
                               fontWeight: FontWeight.w800)),
                     ],
                   ),
-                Expanded(
-                    flex: 1,
-                    child: _user != null && _image == null
-                        ? GestureDetector(
-                            onTap: getImage,
-                            child: Icon(
-                              Icons.portrait_rounded,
-                              size: 82,
-                            ))
-                        : Image.file(_image)),
+                getUserImage(),
+                if (_image != null)
+                  RaisedButton(
+                    onPressed: _onSaveImage,
+                    child: Text('Save image'),
+                  ),
                 RaisedButton(
                   onPressed: _onBtnClick,
-                  child: Text('to-to-do'),
+                  child: Text('To todo'),
                 ),
                 Expanded(flex: 1, child: Container())
               ],
             )));
+  }
+
+  Expanded getUserImage() {
+    var needUserIcon = _user != null && _user.photoUrl != null;
+    var needIcon0 = _user != null && _image == null;
+    var needNewPic = _user != null && _image != null;
+
+    Widget result;
+    if (_user != null && _user.photoUrl != null) {
+      result = Image.network(_user.photoUrl);
+    } else if (_user != null && _image != null) {
+      result = Image.file(_image);
+    } else if (_user != null && _image == null) {
+      result = GestureDetector(
+          onTap: getImage,
+          child: Icon(
+            Icons.portrait_rounded,
+            size: 82,
+          ));
+    }
+
+    return Expanded(flex: 1, child: result);
   }
 }
