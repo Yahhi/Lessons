@@ -145,9 +145,40 @@ class _TodoViewState extends State<TodoView> {
                     color: Colors.blue,
                   ),
           ),
-          trailing: Icon(
-            Icons.delete,
-            color: Colors.red,
+          trailing: GestureDetector(
+            onTap: () {
+              Widget cancelButton = FlatButton(
+                child: Text("Cancel"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              );
+              Widget yesButton = FlatButton(
+                child: Text("Yes"),
+                onPressed: () {
+                  data.reference.delete();
+                  Navigator.of(context).pop();
+                },
+              );
+              AlertDialog alert = AlertDialog(
+                title: Text("Delete record"),
+                content: Text("Would you like to delete this record?"),
+                actions: [
+                  cancelButton,
+                  yesButton,
+                ],
+              );
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return alert;
+                },
+              );
+            },
+            child: Icon(
+              Icons.delete,
+              color: Colors.red,
+            ),
           ),
         ),
       ),
