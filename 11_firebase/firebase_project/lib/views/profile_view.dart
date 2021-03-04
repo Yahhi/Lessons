@@ -91,16 +91,12 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   Expanded getUserImage() {
-    var needUserIcon = _user != null && _user.photoUrl != null;
-    var needIcon0 = _user != null && _image == null;
-    var needNewPic = _user != null && _image != null;
-
     Widget result;
     if (_user != null && _user.photoUrl != null) {
       result = Image.network(_user.photoUrl);
     } else if (_user != null && _image != null) {
       result = Image.file(_image);
-    } else if (_user != null && _image == null) {
+    } else {
       result = GestureDetector(
           onTap: getImage,
           child: Icon(
@@ -108,7 +104,6 @@ class _ProfileViewState extends State<ProfileView> {
             size: 82,
           ));
     }
-
     return Expanded(flex: 1, child: result);
   }
 }
