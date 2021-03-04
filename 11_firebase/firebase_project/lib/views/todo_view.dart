@@ -126,10 +126,12 @@ class _TodoViewState extends State<TodoView> {
                 record.title,
                 style: TextStyle(color: Colors.blue, fontSize: 18),
               ),
-              Row(
-                children: [
-                  Text(record.descr),
-                ],
+              Text(
+                record.descr,
+                textAlign: TextAlign.justify,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 18.0),
+                maxLines: 5,
               ),
             ],
           ),
@@ -196,6 +198,8 @@ class _TodoViewState extends State<TodoView> {
     Widget fieldDescr = TextFormField(
       key: Key('fieldDescr'),
       controller: _controller2Descr,
+      keyboardType: TextInputType.multiline,
+      maxLines: null,
       validator: (value) {
         return null;
       },
