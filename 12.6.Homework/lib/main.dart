@@ -62,6 +62,7 @@ class MainPage extends StatelessWidget {
       child: Container(
         color: Colors.white,
         child: ListView(
+            key: const PageStorageKey<String>('DoneList'),
             children: todoProvider
                 .getDoneTodosByFilter()
                 .map((x) => ListTile(
@@ -110,6 +111,7 @@ class MainPage extends StatelessWidget {
       child: Container(
         color: Colors.white,
         child: ListView(
+            key: const PageStorageKey<String>('FullList'),
             children: todoProvider
                 .getAllTodos()
                 .map((x) => CheckboxListTile(
