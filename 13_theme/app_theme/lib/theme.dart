@@ -14,7 +14,9 @@ ThemeData themeLight = _themeLight.copyWith(
 );
 
 TextTheme _textLight(TextTheme base) {
-  return base.copyWith(bodyText1: TextStyle(color: Colors.green));
+  return base.copyWith(
+    bodyText1: TextStyle(color: Colors.black),
+  );
 }
 
 AppBarTheme _appBarTheme(AppBarTheme base) => base.copyWith(
@@ -25,6 +27,10 @@ AppBarTheme _appBarTheme(AppBarTheme base) => base.copyWith(
         ),
         bodyText2: TextStyle(
           color: Colors.deepOrange[100],
+        ),
+        headline6: TextStyle(
+          color: Colors.deepOrange[100],
+          fontSize: 22,
         ),
       ),
       iconTheme: IconThemeData(
@@ -61,6 +67,9 @@ ButtonThemeData _buttonTheme() {
   return ButtonThemeData(
     buttonColor: Colors.deepOrange[100],
     disabledColor: Colors.grey,
+    shape: RoundedRectangleBorder(
+      borderRadius: new BorderRadius.circular(18.0),
+    ),
   );
 }
 
@@ -74,5 +83,8 @@ ChipThemeData _chipTheme() {
     disabledColor: Colors.black54,
     selectedColor: Colors.deepOrange[100],
     checkmarkColor: Colors.deepOrange[100],
+    shape: RoundedRectangleBorder(
+      borderRadius: new BorderRadius.circular(2),
+    ),
   );
 }
