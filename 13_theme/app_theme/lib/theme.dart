@@ -74,15 +74,22 @@ ButtonThemeData _buttonTheme() {
 }
 
 ChipThemeData _chipTheme() {
-  return ChipThemeData.fromDefaults(
+  var deffChipThemeData = ChipThemeData.fromDefaults(
     primaryColor: Colors.white,
     secondaryColor: Colors.grey,
     labelStyle: TextStyle(),
-  ).copyWith(
+  );
+
+  return ChipThemeData(
+    showCheckmark: false,
+    secondarySelectedColor: deffChipThemeData.secondarySelectedColor,
+    padding: deffChipThemeData.padding,
+    labelStyle: deffChipThemeData.labelStyle,
+    secondaryLabelStyle: deffChipThemeData.secondaryLabelStyle,
+    brightness: deffChipThemeData.brightness,
     backgroundColor: Colors.black54,
     disabledColor: Colors.black54,
     selectedColor: Colors.deepOrange[100],
-    checkmarkColor: Colors.deepOrange[100],
     shape: RoundedRectangleBorder(
       borderRadius: new BorderRadius.circular(2),
     ),
