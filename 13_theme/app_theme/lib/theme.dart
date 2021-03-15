@@ -11,6 +11,7 @@ ThemeData themeLight = _themeLight.copyWith(
   cardTheme: _cardTheme(),
   buttonTheme: _buttonTheme(),
   chipTheme: _chipTheme(),
+  primaryColorDark: Colors.deepOrange[100],
 );
 
 TextTheme _textLight(TextTheme base) {
