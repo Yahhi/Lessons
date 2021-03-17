@@ -67,21 +67,27 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   padding:
                       EdgeInsets.only(top: 10, left: 10, bottom: 20, right: 40),
-                  child: Text(
-                    record.description,
-                    textAlign: TextAlign.justify,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
+                  child: Hero(
+                    tag: '${record.id}-title',
+                    child: Text(
+                      record.description,
+                      textAlign: TextAlign.justify,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
                   ),
                 ),
               ),
               Positioned(
                 bottom: 30,
                 right: 10,
-                child: Icon(
-                  Icons.add_box_sharp,
-                  size: 30,
-                  color: Colors.yellow,
+                child: Hero(
+                  tag: '${record.id}-button',
+                  child: Icon(
+                    Icons.add_box_sharp,
+                    size: 30,
+                    color: Colors.yellow,
+                  ),
                 ),
               ),
             ],
