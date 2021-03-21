@@ -1,13 +1,10 @@
-class LocalRepo {
-  final List<String> _data = List<String>();
+import 'general_repo.dart';
 
-  void addString(String text) {
-    _data.add(text);
-  }
-
-  String getAnyString() {
-    if (_data.length < 1) return null;
-    _data.shuffle();
-    return _data.first;
+class LocalRepo extends GeneralRepo {
+  @override
+  Future<String> fetchCatFact() async {
+    if (GeneralRepo.data.length < 1) return null;
+    GeneralRepo.data.shuffle();
+    return GeneralRepo.data.first;
   }
 }
