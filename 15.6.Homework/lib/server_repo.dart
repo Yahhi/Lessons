@@ -1,5 +1,7 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
+
 import 'general_repo.dart';
 
 class ServerRepo extends GeneralRepo {
@@ -9,7 +11,7 @@ class ServerRepo extends GeneralRepo {
   Future<String> fetchCatFact() async {
     String result;
     try {
-      final response = await http.get(_CAT_FACT_URL);
+      final response = await http.get(Uri.parse(_CAT_FACT_URL));
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
         if (data['text'].toString().length > 20) {
@@ -20,8 +22,11 @@ class ServerRepo extends GeneralRepo {
         print(response.statusCode);
       }
     } catch (e) {
-      print(e.error);
+      print(e);
     }
     return result;
   }
+
+  @override
+  String get repoName => 'server';
 }

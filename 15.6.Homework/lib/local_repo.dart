@@ -7,4 +7,7 @@ class LocalRepo extends GeneralRepo {
     GeneralRepo.data.shuffle();
     return GeneralRepo.data.first;
   }
+
+  @override
+  String get repoName => 'local';
 }
